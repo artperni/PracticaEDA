@@ -22,18 +22,44 @@ char *generaPosStr(int niv);
 unsigned cuentaArchivos(char *ruta, int niv);
 
 struct nodo{
-    
+    char *fname;
+    struct nodo *panterior;
+    struct nodo *psiguiente; 
 };
 
+typedef struct nodo nodo;
+
+
 int main(int argc, char *argv[]){
-    unsigned num;
     
-    if (argc != 2){
-        error("Uso: ./directorio_2 <ruta>\n");
+    nodo *cabeza= NULL;
+    nodo *final=NULL;
+    
+   /* Con un puntero a DIR abriremos el directorio */
+  DIR *dir;
+  /* en *ent habrá información sobre el archivo que se está "sacando" a cada momento */
+  struct dirent *ent;
+
+  /* Empezaremos a leer en el directorio actual */
+  dir = opendir (".");
+
+  /* Miramos que no haya error */
+  if (dir == NULL) 
+    error("No puedo abrir el directorio");
+  
+  /* Una vez nos aseguramos de que no hay error, ¡vamos a jugar! */
+  /* Leyendo uno a uno todos los archivos que hay */
+  while ((ent = readdir (dir)) != NULL) 
+    {
+      /* Nos devolverá el directorio actual (.) y el anterior (..), como hace ls */
+      if ( (strcmp(ent->d_name, ".")!=0) && (strcmp(ent->d_name, "..")!=0) )
+    {
+      /* Una vez tenemos el archivo, lo pasamos a una función para procesarlo. */
+     //insertarfinal(ent->d_name);
+          printf ("\n%s", ent->d_name);
     }
-    printf("Entrando en: %s\n", argv[1]);
-    num=cuentaArchivos(argv[1], 1);
-    printf("%s . Total: %u archivos\n", argv[1], num);
+    }
+  closedir (dir);
     return EXIT_SUCCESS;
 }
 
@@ -43,6 +69,13 @@ void error(const char *s)
     exit(EXIT_FAILURE);
 }
 
+
+
+
+
+
+
+/*
 char *getFullName(char *ruta, struct dirent *ent){
     char *nombrecompleto;
     int tmp;
@@ -137,4 +170,4 @@ unsigned char statFileType(char *fname)
         case S_IFSOCK: return DT_SOCK;
         default:       return DT_UNKNOWN;
     }
-}
+}*/

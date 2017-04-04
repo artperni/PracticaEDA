@@ -26,9 +26,11 @@ struct nodo{
     struct nodo *panterior;
     struct nodo *psiguiente; 
 };
-
 typedef struct nodo nodo;
 
+struct nodo *crearNodo(char *nombre1);
+struct nodo *insertarFinal(nodo *nuevoNodo, nodo *final, nodo *cabeza);
+void listar(nodo *cabeza, nodo *final);
 
 int main(int argc, char *argv[]){
     

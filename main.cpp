@@ -29,7 +29,24 @@ struct nodo{
 typedef struct nodo nodo;
 
 struct nodo *crearNodo(char *nombre1);
-struct nodo *insertarFinal(nodo *nuevoNodo, nodo *final, nodo *cabeza);
+bool borrarNOdo(nodo *nodoABorrar, nodo **final, nodo **cabecera){
+    if (nodoABorrar == NULL){
+        return false;
+    } else {
+        //implementatr borrado
+        //Eliminar tras implementar
+        return false;
+        return true;
+    }
+}
+struct nodo *insertarFinal(nodo *nuevoNodo, nodo **final, nodo **cabeza){
+    if (*cabeza)== NULL){
+       (*cabeza) = nuevoNodo;
+       (*final) = nuevoNodo;
+        
+    } else {
+}
+
 void listar(nodo *cabeza, nodo *final);
 
 int main(int argc, char *argv[]){

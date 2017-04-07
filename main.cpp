@@ -21,33 +21,66 @@ unsigned char getFileType(char *ruta, struct dirent *ent);char *getFullName(char
 char *generaPosStr(int niv);
 unsigned cuentaArchivos(char *ruta, int niv);
 
-struct nodo{
+
+typedef struct {
     char *fname;
+} dato;
+
+struct nodo{
+    dato dato;
     struct nodo *panterior;
     struct nodo *psiguiente; 
 };
 typedef struct nodo nodo;
 
-struct nodo *crearNodo(char *nombre1);
-bool borrarNOdo(nodo *nodoABorrar, nodo **final, nodo **cabecera){
-    if (nodoABorrar == NULL){
-        return false;
-    } else {
-        //implementatr borrado
-        //Eliminar tras implementar
-        return false;
-        return true;
-    }
-}
-struct nodo *insertarFinal(nodo *nuevoNodo, nodo **final, nodo **cabeza){
-    if (*cabeza)== NULL){
-       (*cabeza) = nuevoNodo;
-       (*final) = nuevoNodo;
-        
-    } else {
+
+struct nodo *crearNodo(char *nombre1){
+    nodo* nuevoNodo;
+    nuevoNodo = (nodo*)malloc(sizeof(nodo));
+    nuevoNodo->dato.fname = nombre1;
+    nuevoNodo->panterior = NULL;
+    nuevoNodo->psiguiente = NULL;
+    return nuevoNodo;
+   
 }
 
-void listar(nodo *cabeza, nodo *final);
+struct nodo *insertarFinal(nodo *nuevoNodo, nodo *final, nodo *cabeza){
+    if (cabeza == NULL){
+        final=nuevoNodo;
+        nuevoNodo->psiguiente=nuevoNodo;
+        nuevoNodo->panterior=nuevoNodo;
+    } else{
+        final->psiguiente=nuevoNodo;
+        nuevoNodo->panterior=final;
+        cabeza->panterior=nuevoNodo;
+        nuevoNodo->psiguiente=cabeza;
+        final=nuevoNodo;
+        
+        return final;
+    }
+    
+    
+}
+
+void visualiza(dato miDato){
+    printf("\n%s",miDato.fname);
+}
+
+void listar(nodo *cabeza, nodo *final){
+    if (cabeza == NULL) {
+        printf ("lista Vacia");
+    } else{
+         nodo *siguiente= NULL;
+         siguiente = cabeza->psiguiente;
+         visualiza(cabeza->dato);
+         while (siguiente != cabeza){
+             visualiza(siguiente->dato);
+             
+         }
+    }
+}
+
+ 
 
 int main(int argc, char *argv[]){
     
@@ -74,11 +107,17 @@ int main(int argc, char *argv[]){
       if ( (strcmp(ent->d_name, ".")!=0) && (strcmp(ent->d_name, "..")!=0) )
     {
       /* Una vez tenemos el archivo, lo pasamos a una función para procesarlo. */
-     //insertarfinal(ent->d_name);
           printf ("\n%s", ent->d_name);
+          final=insertarFinal(crearNodo(ent->d_name),final,cabeza);
+          if (cabeza == NULL){
+              cabeza = final;
+          }
+          
     }
     }
+  
   closedir (dir);
+  listar(cabeza,final);
     return EXIT_SUCCESS;
 }
 

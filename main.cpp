@@ -80,23 +80,75 @@ void listar(nodo *cabeza, nodo *final){
          }
     }
 }
-int eliminar (dato * miDato, Elemento *sup_elemento ){
-  Elemento *sup_elemento;
-  if (miDato->tamaño == 0)
-    return -1;
-  sup_elemento = Midato->inicio;
-  serie->inicio = serie->inicio->siguiente;
-  free (sup_elemento->dato);
-  free (sup_elemento);
-  Midato->tamaño--;
+
+int eliminar (nodo *sup_elemento){
+  if (sup_elemento == NULL){
+      printf ("No hay ningún elemento en la lista");
+  } else{
+      sup_elemento->panterior->psiguiente = sup_elemento->psiguiente;
+      sup_elemento->psiguiente->panterior = sup_elemento->panterior;
+       //free (sup_elemento->dato);
+       free (sup_elemento);
+  }
   return 0;
 }
+
+void limpiar(nodo *cabeza, nodo *final){
+    if (cabeza == NULL) {
+        printf ("lista Vacia");
+    } else{
+         nodo *siguiente= NULL;
+         siguiente = cabeza->psiguiente;
+         eliminar(cabeza);
+         while (siguiente != cabeza){
+             eliminar(siguiente);
+             
+         }
+    }
+}
+
+nodo *cargar(char * ruta){
+     nodo *cabeza= NULL;
+    nodo *final=NULL;
+ /* Con un puntero a DIR abriremos el directorio */
+  DIR *dir;
+  /* en *ent habrá información sobre el archivo que se está "sacando" a cada momento */
+  struct dirent *ent;
+
+  /* Empezaremos a leer en el directorio actual */
+  dir = opendir (ruta);
+
+  /* Miramos que no haya error */
+  if (dir == NULL) 
+    error("No puedo abrir el directorio");
+  
+  /* Una vez nos aseguramos de que no hay error, ¡vamos a jugar! */
+  /* Leyendo uno a uno todos los archivos que hay */
+  while ((ent = readdir (dir)) != NULL) 
+    {
+      /* Nos devolverá el directorio actual (.) y el anterior (..), como hace ls */
+      if ( (strcmp(ent->d_name, ".")!=0) && (strcmp(ent->d_name, "..")!=0) )
+          /*.=ruta  // ..=ruta/..*/
+    {
+      /* Una vez tenemos el archivo, lo pasamos a una función para procesarlo. */
+          printf ("\n%s", ent->d_name);
+          final=insertarFinal(crearNodo(ent->d_name),final,cabeza);
+          if (cabeza == NULL){
+              cabeza = final;
+          }
+          
+    }
+    }
+  return cabeza;
+}
+
 
 int main(int argc, char *argv[]){
     int opcion;
     
     nodo *cabeza= NULL;
     nodo *final=NULL;
+    nodo *actual=NULL;
     
    /* Con un puntero a DIR abriremos el directorio */
   DIR *dir;
@@ -140,20 +192,24 @@ int main(int argc, char *argv[]){
     
         switch(opcion){
             case 1:
-                //Avanzar
+                actual=actual->psiguiente;
                 break;
             case 2:
-                listarDocumentosUsuario(Cola, frente, final);
+                actual=actual->panterior;
                 break;
             case 3:
-                listarTodos(Cola, frente, final);
-                quitarUno (Cola, frente, &final);
+                eliminar(actual);
                 break;
             case 4:
-                listarTodos (Cola, frente, final);
+                limpiar(cabeza,final);
                 break;
             case 5:
-                listarTodos (Cola, frente, final);
+                char * ruta;
+                printf ("introduzca una ruta");
+                scanf ("%s", ruta);
+                cabeza=cargar(ruta);
+                final=cabeza->panterior;
+           
                 break;
                 
             case 0:

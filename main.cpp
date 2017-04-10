@@ -83,6 +83,7 @@ void listar(nodo *cabeza, nodo *final){
  
 
 int main(int argc, char *argv[]){
+    int opcion;
     
     nodo *cabeza= NULL;
     nodo *final=NULL;
@@ -115,7 +116,46 @@ int main(int argc, char *argv[]){
           
     }
     }
-  
+      do  { 
+    printf("\n\nElija una de estas opciones del menú:\n ");
+    printf("1-Avanzar en la lista\n");
+    printf("2-Retroceder en lista\n");    
+    printf("3-Eliminar un elemento de la lista\n");
+    printf("4-Limpiar todas las imagenes de la lista\n");
+    printf("5-Cargar todos los elementos de la LIsta\n");
+    printf("0-Salir \n ");
+    
+    printf("\n\nIntroduzca su opcion: ");
+    scanf("%d",&opcion);
+    
+        switch(opcion){
+            case 1:
+                //Avanzar
+                break;
+            case 2:
+                listarDocumentosUsuario(Cola, frente, final);
+                break;
+            case 3:
+                listarTodos(Cola, frente, final);
+                quitarUno (Cola, frente, &final);
+                break;
+            case 4:
+                listarTodos (Cola, frente, final);
+                break;
+            case 5:
+                listarTodos (Cola, frente, final);
+                break;
+                
+            case 0:
+                printf ("Valor incorrecto\n");
+                break;
+        default:
+                printf("\nHa ingresado un numero no valido, introduzca una de las opciones.\n");
+        }
+    } while (opcion!=0);
+    
+    printf("\n Pulse una tecla para finalizar");
+    scanf("%c");
   closedir (dir);
   listar(cabeza,final);
     return EXIT_SUCCESS;

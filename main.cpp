@@ -50,13 +50,14 @@ struct nodo *insertarFinal(nodo *nuevoNodo, nodo *final, nodo *cabeza){
         final=nuevoNodo;
         nuevoNodo->psiguiente=nuevoNodo;
         nuevoNodo->panterior=nuevoNodo;
+        printf ("\nprueba if%s", nuevoNodo->dato.fname);
     } else{
         final->psiguiente=nuevoNodo;
         nuevoNodo->panterior=final;
         cabeza->panterior=nuevoNodo;
         nuevoNodo->psiguiente=cabeza;
         final=nuevoNodo;
-        
+        printf ("\nprueba else%s", nuevoNodo->dato.fname);
         return final;
     }
     
@@ -170,15 +171,16 @@ int main(int argc, char *argv[]){
       if ( (strcmp(ent->d_name, ".")!=0) && (strcmp(ent->d_name, "..")!=0) )
     {
       /* Una vez tenemos el archivo, lo pasamos a una función para procesarlo. */
-          printf ("\n%s", ent->d_name);
+         // printf ("\n%s", ent->d_name);
           final=insertarFinal(crearNodo(ent->d_name),final,cabeza);
           if (cabeza == NULL){
               cabeza = final;
           }
-          
+          actual=cabeza;
     }
     }
       do  { 
+    //printf("El valor actual es %s", actual->dato.fname);
     printf("\n\nElija una de estas opciones del menú:\n ");
     printf("1-Avanzar en la lista\n");
     printf("2-Retroceder en lista\n");    
@@ -208,6 +210,7 @@ int main(int argc, char *argv[]){
                 printf ("introduzca una ruta");
                 scanf ("%s", ruta);
                 cabeza=cargar(ruta);
+                actual=cabeza;
                 final=cabeza->panterior;
            
                 break;

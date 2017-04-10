@@ -29,7 +29,8 @@ typedef struct {
 struct nodo{
     dato dato;
     struct nodo *panterior;
-    struct nodo *psiguiente; 
+    struct nodo *psiguiente;
+    
 };
 typedef struct nodo nodo;
 
@@ -79,8 +80,17 @@ void listar(nodo *cabeza, nodo *final){
          }
     }
 }
-
- 
+int eliminar (dato * miDato, Elemento *sup_elemento ){
+  Elemento *sup_elemento;
+  if (miDato->tamaño == 0)
+    return -1;
+  sup_elemento = Midato->inicio;
+  serie->inicio = serie->inicio->siguiente;
+  free (sup_elemento->dato);
+  free (sup_elemento);
+  Midato->tamaño--;
+  return 0;
+}
 
 int main(int argc, char *argv[]){
     int opcion;

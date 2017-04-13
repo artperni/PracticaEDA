@@ -66,19 +66,6 @@ void visualiza(dato miDato) {
 }
 
 void listar(nodo *cabeza, nodo * final) {
-    /*if (cabeza == NULL) {
-        printf ("lista Vacia");
-    } else{
-         nodo *siguiente= NULL;
-         siguiente = cabeza->psiguiente;
-         visualiza(cabeza->dato);
-         while (siguiente != cabeza){
-             visualiza(siguiente->dato);
-             
-         }
-    }
-     */
-
     if (cabeza == NULL || final == NULL) {
         printf("\nLa lista esta vacia\n");
     } else {
@@ -104,16 +91,15 @@ int eliminar(nodo *sup_elemento) {
 }
 
 void limpiar(nodo *cabeza, nodo * final) {
-    if (cabeza == NULL) {
-        printf("lista Vacia");
+    if (cabeza == NULL || final == NULL) {
+        printf("\nLa lista esta vacia\n");
     } else {
-        nodo *siguiente = NULL;
-        siguiente = cabeza->psiguiente;
-        eliminar(cabeza);
-        while (siguiente != cabeza) {
-            eliminar(siguiente);
-
+        nodo *pSiguiente = cabeza->psiguiente;
+        while (pSiguiente != cabeza) {
+            eliminar(pSiguiente);
+            pSiguiente = pSiguiente->psiguiente;
         }
+        eliminar(cabeza);
     }
 }
 

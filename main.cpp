@@ -22,6 +22,7 @@ char *getFullName(char *ruta, struct dirent *ent);
 char *generaPosStr(int niv);
 unsigned cuentaArchivos(char *ruta, int niv);
 
+//DEfinición de los registros para los diferentes tipos de datos del programa
 typedef struct {
     char *fname;
 } dato;
@@ -34,6 +35,7 @@ struct nodo {
 };
 typedef struct nodo nodo;
 
+//Estructura de tipo nodo que permite la creación de un nuevo nodo
 struct nodo *crearNodo(char *nombre1) {
     nodo* nuevoNodo;
     nuevoNodo = (nodo*) malloc(sizeof (nodo));
@@ -43,28 +45,28 @@ struct nodo *crearNodo(char *nombre1) {
     return nuevoNodo;
 
 }
-
+//Estructura de tipo nodo que permite insertar por el final de la lista un nuevo nodo
 struct nodo *insertarFinal(nodo *nuevoNodo, nodo * final, nodo *cabeza) {
     if (cabeza == NULL) {
         final = nuevoNodo;
         nuevoNodo->psiguiente = nuevoNodo;
         nuevoNodo->panterior = nuevoNodo;
-        //printf ("\nprueba if%s", nuevoNodo->dato.fname);
+        
     } else {
         final->psiguiente = nuevoNodo;
         nuevoNodo->panterior = final;
         cabeza->panterior = nuevoNodo;
         nuevoNodo->psiguiente = cabeza;
         final = nuevoNodo;
-        //printf ("\nprueba else%s", nuevoNodo->dato.fname);
+       
     }
     return final;
 }
-
+//Procedimiento que permite visualizar los datos contenidos en el fichero
 void visualiza(dato miDato) {
     printf("\n%s", miDato.fname);
 }
-
+// procedimiento que permite listar los elementos y llamar a visualizar para su visualizamiento
 void listar(nodo *cabeza, nodo * final) {
     if (cabeza == NULL || final == NULL) {
         printf("\nLa lista esta vacia\n");
@@ -77,7 +79,7 @@ void listar(nodo *cabeza, nodo * final) {
         }
     }
 }
-
+//Función para eliminar un elemento de la lista
 int eliminar(nodo *sup_elemento) {
     if (sup_elemento == NULL) {
         printf("No hay ningún elemento en la lista");
@@ -89,7 +91,7 @@ int eliminar(nodo *sup_elemento) {
     }
     return 0;
 }
-
+//Procedimiento para eliminar todos los elementos de la lista
 void limpiar(nodo *cabeza, nodo * final) {
     if (cabeza == NULL || final == NULL) {
         printf("\nLa lista esta vacia\n");
@@ -102,7 +104,7 @@ void limpiar(nodo *cabeza, nodo * final) {
         eliminar(cabeza);
     }
 }
-
+//Estructura de tipo nodo que permite cargar los elementos de un directorio
 nodo *cargar(char * ruta, nodo * final, nodo *cabeza) {
 
     /* Con un puntero a DIR abriremos el directorio */

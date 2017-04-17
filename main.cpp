@@ -137,20 +137,21 @@ nodo *cargar(char * ruta, nodo * final, nodo *cabeza) {
     return cabeza;
 }
 
-int main(int argc, char *argv[]) {
-    int opcion;
-
+int main(int argc, char *argv[]) {//Lectura del directorio
+                                  //Menú de opciones mediante un switch-case
+    int opcion; //
+    // inciación de los nodos
     nodo *cabeza = NULL;
     nodo * final = NULL;
     nodo *actual = NULL;
 
-    char ruta[250] = ".";
+    char ruta[250] = ".";//permite introducir la ruta a las imaganes que queremos utilizar
 
-    cabeza = cargar(ruta, final, cabeza);
+    cabeza = cargar(ruta, final, cabeza);//inicialización del puntero cabeza "cargar"
     final = cabeza->panterior;
 
     actual = cabeza;
-    do {
+    do { //Mediante este bucle, se muestran todas las opciones posibles para el usuario
         if (actual != NULL)
             printf("\nFichero actual: %s", actual->dato.fname);
             //printf("test");
@@ -162,36 +163,37 @@ int main(int argc, char *argv[]) {
         printf("3-Eliminar un elemento de la lista\n");
         printf("4-Limpiar todas las imagenes de la lista\n");
         printf("5-Cargar todos los elementos de la LIsta\n");
-        printf("0-Salir \n ");
+        printf("6-|<--|Muestra por pantalla todos los elementos de la lista\n");
+        printf("0-Finalizar la ejecucion del programa\n ");
 
         printf("\n\nIntroduzca su opcion: ");
         scanf("%d", &opcion);
 
-        switch (opcion) {
-            case 1:
+        switch (opcion) {//En función de la opción escogida se ejecuta una determinada opción case
+            case 1://Permite avanzar en la lista, de este modo el puntero actual apuntará al puntero siguiente
                 actual = actual->psiguiente;
                 break;
-            case 2:
+            case 2://Permite retrocedes en la lista, de este modo el puntero actual apuntará al puntero anterior
                 actual = actual->panterior;
                 break;
-            case 3:
+            case 3://Permite eliminar un elemento de la lista, de este modo se elimina el puntero actual
                 eliminar(actual);
                 break;
-            case 4:
+            case 4://Elimina todas las imágenes de la lista, para ello apunta en la lista desde cabeza a final
                 limpiar(cabeza, final);
                 break;
-            case 5:
+            case 5://Permite la carga de las imágenes almacenadas en el directorio indicado, para ello necesita la direccion de la ruta, que luego alamacena apunta tanto al puntero cabeza desde el final, como al actual y a final
                 printf("\nIntroduzca una ruta: ");
                 scanf("%s", ruta);
                 cabeza = cargar(ruta, final, cabeza);
                 actual = cabeza;
                 final = cabeza->panterior;
                 break;
-            case 6:
+            case 6://Muestra por pantalla todos los elementos de la lista, devolviendonos al menú de opciones
                 listar(cabeza, final);
                 break;
 
-            default:
+            default://En caso de que el numero introducido no sea valido, se mostrara el siguiente mensaje de error
                 printf("\nHa ingresado un numero no valido, introduzca una de las opciones.\n");
         }
     } while (opcion != 0);
@@ -201,7 +203,7 @@ int main(int argc, char *argv[]) {
     return EXIT_SUCCESS;
 }
 
-void error(const char *s) {
+void error(const char *s) {//En caso de error se mostrará el puntero a error
     perror(s);
     exit(EXIT_FAILURE);
 }

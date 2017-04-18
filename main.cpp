@@ -171,13 +171,21 @@ int main(int argc, char *argv[]) {//Lectura del directorio
 
         switch (opcion) {//En función de la opción escogida se ejecuta una determinada opción case
             case 1://Permite avanzar en la lista, de este modo el puntero actual apuntará al puntero siguiente
-                actual = actual->psiguiente;
+                if (cabeza == NULL  || actual==actual->psiguiente)
+                    printf("\nAvanzar no disponible");
+                else
+                    actual = actual->psiguiente;
                 break;
             case 2://Permite retrocedes en la lista, de este modo el puntero actual apuntará al puntero anterior
-                actual = actual->panterior;
+                if (cabeza == NULL  || actual==actual->panterior)
+                    printf("\nRetroceder no disponible");
+                else
+                    actual = actual->panterior;
                 break;
             case 3://Permite eliminar un elemento de la lista, de este modo se elimina el puntero actual
+                nodo* siguiente = actual->psiguiente;
                 eliminar(actual);
+                actual = siguiente;
                 break;
             case 4://Elimina todas las imágenes de la lista, para ello apunta en la lista desde cabeza a final
                 limpiar(cabeza, final);
